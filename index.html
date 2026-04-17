@@ -1,645 +1,1043 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aterym Alta Gracia — Nefrología y Hemodiálisis</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --blue:       #00aeea;
-    --blue-dark:  #316096;
-    --blue-light: #e8f7fd;
-    --grey:       #868686;
-    --grey-light: #f5f5f5;
-    --grey-line:  #e8e8e8;
-    --white:      #ffffff;
-    --text:       #1a1a1a;
-    --text-mid:   #444444;
-    --text-soft:  #868686;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aterym Alta Gracia — Nefrología y Hemodiálisis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
+    /* ══════════════════════════════════
+       RESET & BASE
+    ══════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #ffffff;
+      color: #1c1c1c;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; }
+    ul { list-style: none; }
 
-  body {
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    background: var(--white);
-    color: var(--text);
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-  }
+    /* ══════════════════════════════════
+       TOKENS
+    ══════════════════════════════════ */
+    :root {
+      --celeste:    #00aeea;
+      --azul:       #316096;
+      --gris:       #868686;
+      --gris-bg:    #f6f7f8;
+      --gris-borde: #e2e5e8;
+      --texto:      #1c1c1c;
+      --texto-medio:#444;
+      --texto-suave:#868686;
+      --blanco:     #ffffff;
+      --azul-claro: #eaf6fd;
 
-  /* NAV */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 56px;
-    height: 68px;
-    background: var(--white);
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.3s, box-shadow 0.3s;
-  }
-  nav.scrolled {
-    border-color: var(--grey-line);
-    box-shadow: 0 1px 16px rgba(0,0,0,0.05);
-  }
-  .nav-logo img { height: 34px; display: block; }
-  .nav-links { display: flex; gap: 32px; list-style: none; }
-  .nav-links a {
-    font-size: 13px; font-weight: 400; letter-spacing: 0.01em;
-    color: var(--text-mid); text-decoration: none; transition: color 0.2s;
-  }
-  .nav-links a:hover { color: var(--blue); }
-  .nav-cta {
-    background: var(--blue); color: var(--white); text-decoration: none;
-    font-size: 13px; font-weight: 500; padding: 9px 22px;
-    border-radius: 2px; transition: background 0.2s;
-  }
-  .nav-cta:hover { background: var(--blue-dark); }
+      --espacio-s:  24px;
+      --espacio-m:  48px;
+      --espacio-l:  80px;
+      --espacio-xl: 120px;
+      --max:        1200px;
+      --radio:      3px;
+    }
 
-  /* HERO */
-  .hero {
-    margin-top: 68px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    min-height: calc(100vh - 68px);
-  }
-  .hero-left {
-    display: flex; flex-direction: column; justify-content: center;
-    padding: 80px 64px 80px 56px;
-  }
-  .hero-eyebrow {
-    font-size: 11px; font-weight: 500; letter-spacing: 0.18em;
-    text-transform: uppercase; color: var(--blue); margin-bottom: 20px;
-    opacity: 0; animation: fadeUp 0.7s 0.1s forwards;
-  }
-  .hero-title {
-    font-size: clamp(36px, 4vw, 56px); font-weight: 300;
-    line-height: 1.12; color: var(--text); margin-bottom: 10px;
-    opacity: 0; animation: fadeUp 0.7s 0.25s forwards;
-  }
-  .hero-title strong {
-    font-weight: 600; color: var(--blue-dark); display: block;
-  }
-  .hero-rule {
-    width: 48px; height: 3px; background: var(--blue);
-    margin: 24px 0 28px;
-    opacity: 0; animation: fadeUp 0.7s 0.4s forwards;
-  }
-  .hero-sub {
-    font-size: 15px; font-weight: 300; line-height: 1.75;
-    color: var(--text-soft); max-width: 400px; margin-bottom: 40px;
-    opacity: 0; animation: fadeUp 0.7s 0.5s forwards;
-  }
-  .hero-actions {
-    display: flex; gap: 14px; align-items: center; flex-wrap: wrap;
-    opacity: 0; animation: fadeUp 0.7s 0.65s forwards;
-  }
-  .btn-blue {
-    background: var(--blue); color: var(--white); text-decoration: none;
-    font-size: 13px; font-weight: 500; padding: 12px 28px;
-    border-radius: 2px; display: inline-block; transition: background 0.2s;
-  }
-  .btn-blue:hover { background: var(--blue-dark); }
-  .btn-outline {
-    border: 1.5px solid var(--grey-line); color: var(--text-mid);
-    text-decoration: none; font-size: 13px; font-weight: 400;
-    padding: 11px 24px; border-radius: 2px; display: inline-block;
-    transition: border-color 0.2s, color 0.2s;
-  }
-  .btn-outline:hover { border-color: var(--blue); color: var(--blue); }
+    /* ══════════════════════════════════
+       HELPERS
+    ══════════════════════════════════ */
+    .contenedor {
+      width: 100%;
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+    @media (max-width: 768px) { .contenedor { padding: 0 20px; } }
 
-  .hero-right {
-    position: relative; overflow: hidden; background: var(--grey-light);
-  }
-  .hero-right img {
-    width: 100%; height: 100%; object-fit: cover; object-position: center top;
-    opacity: 0; animation: fadeIn 1s 0.3s forwards;
-  }
-  .hero-badge {
-    position: absolute; bottom: 32px; left: 32px;
-    background: var(--white); border-left: 3px solid var(--blue);
-    padding: 14px 18px; display: flex; align-items: center; gap: 14px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    opacity: 0; animation: fadeUp 0.7s 1s forwards; max-width: 280px;
-  }
-  .hero-badge img { height: 32px; flex-shrink: 0; }
-  .hero-badge span { font-size: 11px; font-weight: 400; color: var(--text-mid); line-height: 1.5; }
+    .etiqueta {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--celeste);
+      margin-bottom: 12px;
+    }
+    .titulo {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 300;
+      line-height: 1.15;
+      color: var(--texto);
+    }
+    .titulo b { font-weight: 600; color: var(--azul); }
 
-  /* STAT BAR */
-  .stat-bar { background: var(--blue-dark); display: flex; }
-  .stat-item {
-    flex: 1; padding: 32px 24px; text-align: center;
-    border-right: 1px solid rgba(255,255,255,0.12);
-  }
-  .stat-item:last-child { border-right: none; }
-  .stat-num { font-size: 36px; font-weight: 300; color: var(--white); line-height: 1; margin-bottom: 6px; }
-  .stat-num span { font-weight: 600; color: var(--blue); }
-  .stat-label { font-size: 11px; font-weight: 400; letter-spacing: 0.06em; color: rgba(255,255,255,0.55); text-transform: uppercase; }
+    .btn {
+      display: inline-block;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: .04em;
+      padding: 12px 28px;
+      border-radius: var(--radio);
+      transition: background .2s, color .2s, border-color .2s;
+      white-space: nowrap;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primario   { background: var(--celeste); color: #fff; }
+    .btn-primario:hover { background: #0099d4; }
+    .btn-secundario { background: transparent; color: var(--texto-medio); border: 1.5px solid var(--gris-borde); }
+    .btn-secundario:hover { border-color: var(--celeste); color: var(--celeste); }
+    .btn-blanco     { background: #fff; color: var(--azul); }
+    .btn-blanco:hover { background: var(--azul-claro); }
 
-  /* SECTION HELPERS */
-  .section-tag {
-    font-size: 11px; font-weight: 500; letter-spacing: 0.18em;
-    text-transform: uppercase; color: var(--blue); margin-bottom: 14px; display: block;
-  }
-  .section-title {
-    font-size: clamp(28px, 3vw, 42px); font-weight: 300;
-    line-height: 1.18; color: var(--text); margin-bottom: 16px;
-  }
-  .section-title strong { font-weight: 600; color: var(--blue-dark); }
+    /* reveal */
+    .revelar {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .revelar.visible { opacity: 1; transform: translateY(0); }
 
-  /* TRATAMIENTOS */
-  .tratamientos {
-    padding: 96px 56px; display: grid;
-    grid-template-columns: 1fr 1fr; gap: 72px;
-    align-items: center; background: var(--white);
-  }
-  .trat-text p {
-    font-size: 15px; font-weight: 300; line-height: 1.8;
-    color: var(--text-soft); margin-bottom: 36px; max-width: 420px;
-  }
-  .trat-cards { display: flex; flex-direction: column; gap: 1px; }
-  .trat-card {
-    background: var(--white); border: 1px solid var(--grey-line);
-    padding: 28px 32px; display: flex; justify-content: space-between;
-    align-items: center; gap: 20px; cursor: default;
-    transition: border-color 0.2s, box-shadow 0.2s;
-  }
-  .trat-card:hover { border-color: var(--blue); box-shadow: 0 2px 16px rgba(0,174,234,0.08); }
-  .trat-card-num {
-    font-size: 11px; font-weight: 500; color: var(--blue);
-    letter-spacing: 0.12em; margin-bottom: 6px; display: block;
-  }
-  .trat-card h3 { font-size: 20px; font-weight: 500; color: var(--text); margin-bottom: 6px; }
-  .trat-card p { font-size: 13px; font-weight: 300; color: var(--text-soft); line-height: 1.6; }
-  .trat-card-arrow {
-    font-size: 18px; color: var(--blue); opacity: 0.4; flex-shrink: 0;
-    transition: opacity 0.2s, transform 0.2s;
-  }
-  .trat-card:hover .trat-card-arrow { opacity: 1; transform: translateX(4px); }
+    /* ══════════════════════════════════
+       NAV
+    ══════════════════════════════════ */
+    #nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      height: 64px;
+      background: #fff;
+      border-bottom: 1px solid transparent;
+      transition: border-color .3s, box-shadow .3s;
+    }
+    #nav.con-sombra {
+      border-color: var(--gris-borde);
+      box-shadow: 0 2px 16px rgba(0,0,0,.06);
+    }
+    .nav-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 40px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .nav-logo { height: 32px; width: auto; }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+    }
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--texto-medio);
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--celeste); }
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 6px;
+      background: none;
+      border: none;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--texto);
+      border-radius: 2px;
+      transition: transform .3s, opacity .3s;
+    }
+    /* mobile menu */
+    .nav-menu-mobile {
+      display: none;
+      position: fixed;
+      top: 64px; left: 0; right: 0;
+      background: #fff;
+      border-bottom: 1px solid var(--gris-borde);
+      padding: 20px 20px 28px;
+      z-index: 199;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .nav-menu-mobile.abierto { display: flex; }
+    .nav-menu-mobile a {
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--texto-medio);
+      padding: 10px 4px;
+      border-bottom: 1px solid var(--gris-bg);
+      transition: color .2s;
+    }
+    .nav-menu-mobile a:last-child { border-bottom: none; }
+    .nav-menu-mobile a:hover { color: var(--celeste); }
 
-  /* ACREDITACIÓN */
-  .acreditacion {
-    background: var(--blue-light);
-    border-top: 1px solid rgba(0,174,234,0.15);
-    border-bottom: 1px solid rgba(0,174,234,0.15);
-    padding: 72px 56px;
-    display: grid; grid-template-columns: 1fr auto; gap: 64px; align-items: center;
-  }
-  .acred-text p {
-    font-size: 15px; font-weight: 300; line-height: 1.75;
-    color: var(--text-mid); max-width: 560px; margin-bottom: 28px;
-  }
-  .acred-badge { text-align: center; flex-shrink: 0; }
-  .acred-badge img { height: 72px; display: block; margin: 0 auto 14px; opacity: 0.85; }
-  .acred-badge span {
-    font-size: 11px; font-weight: 500; letter-spacing: 0.1em;
-    text-transform: uppercase; color: var(--blue-dark);
-    display: block; max-width: 160px; line-height: 1.5;
-  }
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+    }
+    @media (max-width: 768px) {
+      .nav-inner { padding: 0 20px; }
+    }
 
-  /* EQUIPO */
-  .equipo { padding: 96px 56px; background: var(--grey-light); }
-  .equipo-header {
-    display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px;
-  }
-  .equipo-header a {
-    font-size: 13px; font-weight: 500; color: var(--blue);
-    text-decoration: none; display: flex; align-items: center; gap: 6px; transition: gap 0.2s;
-  }
-  .equipo-header a:hover { gap: 10px; }
-  .equipo-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; }
-  .medico-card {
-    background: var(--white); display: flex; align-items: center;
-    gap: 20px; padding: 24px 28px; border: 1px solid var(--grey-line);
-    transition: border-color 0.2s;
-  }
-  .medico-card:hover { border-color: var(--blue); }
-  .medico-card img {
-    width: 64px; height: 64px; border-radius: 50%;
-    object-fit: cover; object-position: top; flex-shrink: 0;
-    border: 2px solid var(--grey-line);
-  }
-  .medico-info h4 { font-size: 16px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
-  .medico-info span { font-size: 12px; font-weight: 400; color: var(--blue); }
+    /* ══════════════════════════════════
+       HERO
+    ══════════════════════════════════ */
+    .hero {
+      margin-top: 64px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: calc(100vh - 64px);
+    }
+    .hero-texto {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: var(--espacio-l) var(--espacio-m) var(--espacio-l) 40px;
+    }
+    .hero-texto .titulo { margin-bottom: 20px; }
+    .hero-linea {
+      width: 44px;
+      height: 3px;
+      background: var(--celeste);
+      margin-bottom: 20px;
+    }
+    .hero-bajada {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.8;
+      color: var(--texto-suave);
+      max-width: 400px;
+      margin-bottom: 36px;
+    }
+    .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
 
-  /* VACACIONES */
-  .vacaciones { display: grid; grid-template-columns: 1fr 1fr; min-height: 500px; }
-  .vac-img { position: relative; overflow: hidden; }
-  .vac-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .vac-content {
-    padding: 80px 56px; background: var(--white);
-    display: flex; flex-direction: column; justify-content: center;
-    border-top: 1px solid var(--grey-line); border-bottom: 1px solid var(--grey-line);
-  }
-  .vac-content .section-title { margin-bottom: 18px; }
-  .vac-content p {
-    font-size: 15px; font-weight: 300; line-height: 1.8;
-    color: var(--text-soft); margin-bottom: 32px; max-width: 380px;
-  }
+    .hero-imagen {
+      position: relative;
+      overflow: hidden;
+      background: var(--gris-bg);
+    }
+    .hero-imagen img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
+    .hero-sello {
+      position: absolute;
+      bottom: 28px;
+      left: 28px;
+      background: #fff;
+      border-left: 3px solid var(--celeste);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      max-width: 270px;
+      box-shadow: 0 4px 20px rgba(0,0,0,.12);
+    }
+    .hero-sello img { height: 30px; flex-shrink: 0; }
+    .hero-sello p { font-size: 11px; line-height: 1.5; color: var(--texto-medio); font-weight: 400; }
 
-  /* NOTICIAS */
-  .noticias { padding: 96px 56px; background: var(--white); }
-  .noticias-header {
-    display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px;
-  }
-  .noticias-header a { font-size: 13px; font-weight: 500; color: var(--blue); text-decoration: none; }
-  .noticias-grid {
-    display: grid; grid-template-columns: repeat(2, 1fr);
-    gap: 1px; border: 1px solid var(--grey-line);
-  }
-  .noticia-card {
-    background: var(--white); text-decoration: none; color: inherit;
-    display: block; transition: box-shadow 0.2s;
-  }
-  .noticia-card:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.07); z-index: 1; position: relative; }
-  .noticia-img {
-    width: 100%; height: 210px; object-fit: cover; display: block;
-    filter: saturate(0.8); transition: filter 0.3s;
-  }
-  .noticia-card:hover .noticia-img { filter: saturate(1); }
-  .noticia-body { padding: 24px 28px 32px; }
-  .noticia-date {
-    font-size: 11px; font-weight: 500; letter-spacing: 0.12em;
-    text-transform: uppercase; color: var(--blue); margin-bottom: 10px; display: block;
-  }
-  .noticia-body h3 {
-    font-size: 18px; font-weight: 500; line-height: 1.35;
-    color: var(--text); margin-bottom: 10px;
-  }
-  .noticia-body p { font-size: 13px; font-weight: 300; line-height: 1.7; color: var(--text-soft); }
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-texto { padding: 48px 20px 52px; order: 2; }
+      .hero-imagen { height: 300px; order: 1; }
+      .hero-sello { bottom: 16px; left: 16px; max-width: 240px; }
+    }
 
-  /* JORNADA BANNER */
-  .jornada-banner {
-    background: var(--blue-dark); padding: 56px;
-    display: flex; align-items: center; justify-content: space-between; gap: 40px;
-  }
-  .jornada-banner-text .section-tag { color: rgba(255,255,255,0.6); }
-  .jornada-banner-text h2 {
-    font-size: clamp(22px, 2.5vw, 32px); font-weight: 300; color: var(--white); line-height: 1.3;
-  }
-  .jornada-banner-text h2 strong { font-weight: 600; }
-  .btn-white {
-    background: var(--white); color: var(--blue-dark); text-decoration: none;
-    font-size: 13px; font-weight: 600; padding: 13px 28px; border-radius: 2px;
-    white-space: nowrap; flex-shrink: 0; transition: background 0.2s; display: inline-block;
-  }
-  .btn-white:hover { background: var(--blue-light); }
+    /* animaciones hero */
+    .hero-texto .etiqueta { animation: subirFadeIn .6s .1s both; }
+    .hero-texto .titulo   { animation: subirFadeIn .6s .25s both; }
+    .hero-texto .hero-linea { animation: subirFadeIn .6s .4s both; }
+    .hero-texto .hero-bajada { animation: subirFadeIn .6s .5s both; }
+    .hero-texto .hero-ctas { animation: subirFadeIn .6s .65s both; }
+    .hero-imagen img { animation: fundirIn .9s .2s both; }
+    .hero-sello { animation: subirFadeIn .6s 1s both; }
 
-  /* CONTACTO */
-  .contacto {
-    padding: 96px 56px; background: var(--grey-light);
-    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start;
-  }
-  .contacto-text .section-title { margin-bottom: 14px; }
-  .contacto-text p {
-    font-size: 15px; font-weight: 300; line-height: 1.75;
-    color: var(--text-soft); margin-bottom: 32px;
-  }
-  .contacto-items { display: flex; flex-direction: column; }
-  .contacto-item {
-    display: flex; align-items: flex-start; gap: 16px;
-    padding: 20px 0; border-bottom: 1px solid var(--grey-line);
-  }
-  .contacto-item:first-child { border-top: 1px solid var(--grey-line); }
-  .contacto-icon {
-    width: 36px; height: 36px; background: var(--white);
-    border: 1px solid var(--grey-line); border-radius: 2px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 15px; flex-shrink: 0; color: var(--blue);
-  }
-  .contacto-item-text { display: flex; flex-direction: column; gap: 2px; }
-  .contacto-item-text span:first-child {
-    font-size: 11px; font-weight: 500; letter-spacing: 0.12em;
-    text-transform: uppercase; color: var(--text-soft);
-  }
-  .contacto-item-text span:last-child { font-size: 14px; font-weight: 400; color: var(--text); }
+    @keyframes subirFadeIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fundirIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
 
-  /* FOOTER */
-  footer {
-    background: var(--white); border-top: 1px solid var(--grey-line);
-    padding: 40px 56px; display: grid;
-    grid-template-columns: auto 1fr auto auto; align-items: center; gap: 40px;
-  }
-  footer .footer-logo { height: 28px; display: block; }
-  .footer-nav { display: flex; gap: 24px; flex-wrap: wrap; }
-  .footer-nav a {
-    font-size: 12px; font-weight: 400; color: var(--text-soft);
-    text-decoration: none; transition: color 0.2s;
-  }
-  .footer-nav a:hover { color: var(--blue); }
-  .footer-social { display: flex; gap: 16px; }
-  .footer-social a {
-    font-size: 12px; font-weight: 400; color: var(--text-soft);
-    text-decoration: none; transition: color 0.2s;
-  }
-  .footer-social a:hover { color: var(--blue); }
-  .footer-copy { font-size: 11px; color: #c0c0c0; white-space: nowrap; }
+    /* ══════════════════════════════════
+       ESTADÍSTICAS
+    ══════════════════════════════════ */
+    .stats {
+      background: var(--azul);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .stat {
+      padding: 36px 20px;
+      text-align: center;
+      border-right: 1px solid rgba(255,255,255,.15);
+    }
+    .stat:last-child { border-right: none; }
+    .stat-numero {
+      font-size: 38px;
+      font-weight: 300;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .stat-numero span { color: var(--celeste); font-weight: 600; }
+    .stat-label {
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.55);
+    }
+    @media (max-width: 680px) {
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .stat { border-bottom: 1px solid rgba(255,255,255,.15); }
+      .stat:nth-child(2) { border-right: none; }
+      .stat:nth-child(3), .stat:nth-child(4) { border-bottom: none; }
+    }
 
-  /* ANIMATIONS */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(18px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; } to { opacity: 1; }
-  }
-  .reveal {
-    opacity: 0; transform: translateY(22px);
-    transition: opacity 0.65s ease, transform 0.65s ease;
-  }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
+    /* ══════════════════════════════════
+       SECCIÓN: TRATAMIENTOS
+    ══════════════════════════════════ */
+    .tratamientos { padding: var(--espacio-xl) 0; background: #fff; }
+    .tratamientos-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 40px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 72px;
+      align-items: center;
+    }
+    .tratamientos-texto .titulo { margin-bottom: 16px; }
+    .tratamientos-texto p {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.8;
+      color: var(--texto-suave);
+      margin-bottom: 32px;
+    }
+    .tarjetas { display: flex; flex-direction: column; gap: 1px; }
+    .tarjeta {
+      background: #fff;
+      border: 1px solid var(--gris-borde);
+      padding: 28px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .tarjeta:hover {
+      border-color: var(--celeste);
+      box-shadow: 0 2px 20px rgba(0,174,234,.07);
+    }
+    .tarjeta-num {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--celeste);
+      letter-spacing: .12em;
+      margin-bottom: 6px;
+    }
+    .tarjeta h3 {
+      font-size: 19px;
+      font-weight: 500;
+      color: var(--texto);
+      margin-bottom: 5px;
+    }
+    .tarjeta p { font-size: 13px; font-weight: 300; color: var(--texto-suave); line-height: 1.6; }
+    .tarjeta-flecha {
+      font-size: 18px;
+      color: var(--celeste);
+      opacity: 0;
+      flex-shrink: 0;
+      transition: opacity .2s, transform .2s;
+    }
+    .tarjeta:hover .tarjeta-flecha { opacity: 1; transform: translateX(4px); }
 
-  /* MOBILE */
-  @media (max-width: 860px) {
-    nav { padding: 0 20px; }
-    .nav-links { display: none; }
-    .hero { grid-template-columns: 1fr; min-height: auto; }
-    .hero-left { padding: 48px 20px 56px; }
-    .hero-right { height: 280px; }
-    .hero-badge { left: 16px; bottom: 16px; }
-    .stat-bar { flex-direction: column; }
-    .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.12); }
-    .stat-item:last-child { border-bottom: none; }
-    .tratamientos { grid-template-columns: 1fr; gap: 40px; padding: 64px 20px; }
-    .acreditacion { grid-template-columns: 1fr; padding: 56px 20px; }
-    .equipo { padding: 64px 20px; }
-    .equipo-grid { grid-template-columns: 1fr; }
-    .equipo-header { flex-direction: column; gap: 12px; align-items: flex-start; }
-    .vacaciones { grid-template-columns: 1fr; }
-    .vac-img { height: 260px; }
-    .vac-content { padding: 48px 20px; }
-    .noticias { padding: 64px 20px; }
-    .noticias-grid { grid-template-columns: 1fr; }
-    .noticias-header { flex-direction: column; gap: 10px; align-items: flex-start; }
-    .jornada-banner { padding: 40px 20px; flex-direction: column; align-items: flex-start; }
-    .contacto { grid-template-columns: 1fr; gap: 40px; padding: 64px 20px; }
-    footer { grid-template-columns: 1fr 1fr; padding: 32px 20px; gap: 20px; }
-    .footer-copy { grid-column: 1 / -1; }
-  }
-</style>
+    @media (max-width: 860px) {
+      .tratamientos-inner { grid-template-columns: 1fr; gap: 40px; padding: 0 20px; }
+    }
+    @media (max-width: 768px) {
+      .tratamientos { padding: var(--espacio-l) 0; }
+    }
+
+    /* ══════════════════════════════════
+       SECCIÓN: ACREDITACIÓN
+    ══════════════════════════════════ */
+    .acreditacion {
+      background: var(--azul-claro);
+      border-top: 1px solid rgba(0,174,234,.2);
+      border-bottom: 1px solid rgba(0,174,234,.2);
+      padding: var(--espacio-m) 0;
+    }
+    .acreditacion-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 40px;
+      display: grid;
+      grid-template-columns: 1fr 220px;
+      gap: 60px;
+      align-items: center;
+    }
+    .acreditacion-texto .titulo { margin-bottom: 14px; }
+    .acreditacion-texto p {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.8;
+      color: var(--texto-medio);
+      margin-bottom: 28px;
+    }
+    .acreditacion-sello {
+      text-align: center;
+      padding: 28px 20px;
+      background: #fff;
+      border: 1px solid rgba(0,174,234,.2);
+      border-radius: var(--radio);
+    }
+    .acreditacion-sello img { height: 60px; margin: 0 auto 14px; }
+    .acreditacion-sello p {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--azul);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 860px) {
+      .acreditacion-inner { grid-template-columns: 1fr; gap: 32px; padding: 0 20px; }
+      .acreditacion-sello { max-width: 280px; }
+    }
+
+    /* ══════════════════════════════════
+       SECCIÓN: EQUIPO
+    ══════════════════════════════════ */
+    .equipo { padding: var(--espacio-xl) 0; background: var(--gris-bg); }
+    .equipo-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 40px;
+      gap: 20px;
+    }
+    .equipo-header a {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--celeste);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      transition: gap .2s;
+    }
+    .equipo-header a:hover { gap: 10px; }
+    .medicos-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+    }
+    .medico {
+      background: #fff;
+      border: 1px solid var(--gris-borde);
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      transition: border-color .2s;
+    }
+    .medico:hover { border-color: var(--celeste); }
+    .medico-foto {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: top center;
+      flex-shrink: 0;
+      border: 2px solid var(--gris-borde);
+    }
+    .medico h4 { font-size: 15px; font-weight: 600; color: var(--texto); margin-bottom: 3px; }
+    .medico span { font-size: 12px; font-weight: 400; color: var(--celeste); }
+
+    @media (max-width: 768px) {
+      .equipo { padding: var(--espacio-l) 0; }
+      .medicos-grid { grid-template-columns: 1fr; }
+      .equipo-header { flex-direction: column; align-items: flex-start; }
+    }
+
+    /* ══════════════════════════════════
+       SECCIÓN: VACACIONES
+    ══════════════════════════════════ */
+    .vacaciones {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .vacaciones-imagen {
+      position: relative;
+      overflow: hidden;
+      min-height: 460px;
+    }
+    .vacaciones-imagen img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .vacaciones-texto {
+      background: #fff;
+      padding: var(--espacio-l) var(--espacio-m);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-top: 1px solid var(--gris-borde);
+      border-bottom: 1px solid var(--gris-borde);
+    }
+    .vacaciones-texto .titulo { margin-bottom: 16px; }
+    .vacaciones-texto p {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.8;
+      color: var(--texto-suave);
+      margin-bottom: 32px;
+    }
+
+    @media (max-width: 860px) {
+      .vacaciones { grid-template-columns: 1fr; }
+      .vacaciones-imagen { min-height: 260px; }
+      .vacaciones-texto { padding: var(--espacio-m) 20px; }
+    }
+
+    /* ══════════════════════════════════
+       SECCIÓN: NOTICIAS
+    ══════════════════════════════════ */
+    .noticias { padding: var(--espacio-xl) 0; background: #fff; }
+    .noticias-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 36px;
+      gap: 20px;
+    }
+    .noticias-header a {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--celeste);
+      white-space: nowrap;
+    }
+    .noticias-header a:hover { text-decoration: underline; }
+    .noticias-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+    .noticia {
+      border: 1px solid var(--gris-borde);
+      border-radius: var(--radio);
+      overflow: hidden;
+      transition: box-shadow .2s, transform .2s;
+      color: inherit;
+      background: #fff;
+    }
+    .noticia:hover {
+      box-shadow: 0 6px 28px rgba(0,0,0,.08);
+      transform: translateY(-2px);
+    }
+    .noticia-foto {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .noticia-cuerpo { padding: 24px; }
+    .noticia-fecha {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--celeste);
+      margin-bottom: 10px;
+    }
+    .noticia-cuerpo h3 {
+      font-size: 17px;
+      font-weight: 600;
+      line-height: 1.4;
+      color: var(--texto);
+      margin-bottom: 10px;
+    }
+    .noticia-cuerpo p {
+      font-size: 13px;
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--texto-suave);
+    }
+
+    @media (max-width: 768px) {
+      .noticias { padding: var(--espacio-l) 0; }
+      .noticias-grid { grid-template-columns: 1fr; gap: 16px; }
+      .noticias-header { flex-direction: column; align-items: flex-start; }
+    }
+
+    /* ══════════════════════════════════
+       BANNER JORNADA
+    ══════════════════════════════════ */
+    .jornada-banner {
+      background: var(--azul);
+      padding: 56px 40px;
+    }
+    .jornada-banner-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+    }
+    .jornada-banner .etiqueta { color: rgba(255,255,255,.6); }
+    .jornada-banner h2 {
+      font-size: clamp(20px, 2.5vw, 30px);
+      font-weight: 300;
+      color: #fff;
+      line-height: 1.35;
+    }
+    .jornada-banner h2 b { font-weight: 600; }
+
+    @media (max-width: 768px) {
+      .jornada-banner { padding: 44px 20px; }
+      .jornada-banner-inner { flex-direction: column; align-items: flex-start; gap: 24px; }
+    }
+
+    /* ══════════════════════════════════
+       SECCIÓN: CONTACTO
+    ══════════════════════════════════ */
+    .contacto { padding: var(--espacio-xl) 0; background: var(--gris-bg); }
+    .contacto-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 40px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .contacto-texto .titulo { margin-bottom: 14px; }
+    .contacto-texto p {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.8;
+      color: var(--texto-suave);
+      margin-bottom: 32px;
+    }
+    .contacto-datos { display: flex; flex-direction: column; }
+    .dato {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--gris-borde);
+    }
+    .dato:first-child { border-top: 1px solid var(--gris-borde); }
+    .dato-icono {
+      width: 36px;
+      height: 36px;
+      background: #fff;
+      border: 1px solid var(--gris-borde);
+      border-radius: var(--radio);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+    .dato-info { display: flex; flex-direction: column; gap: 2px; }
+    .dato-info small {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--gris);
+    }
+    .dato-info span { font-size: 14px; font-weight: 400; color: var(--texto); }
+
+    @media (max-width: 860px) {
+      .contacto-inner { grid-template-columns: 1fr; gap: 40px; padding: 0 20px; }
+    }
+    @media (max-width: 768px) { .contacto { padding: var(--espacio-l) 0; } }
+
+    /* ══════════════════════════════════
+       FOOTER
+    ══════════════════════════════════ */
+    footer {
+      background: #fff;
+      border-top: 1px solid var(--gris-borde);
+      padding: 36px 40px;
+    }
+    .footer-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .footer-logo {
+      height: 30px;
+      /* logo blanco → se mostrará con versión de color si existe,
+         sino usamos texto como fallback */
+    }
+    .footer-nav { display: flex; gap: 20px; flex-wrap: wrap; }
+    .footer-nav a { font-size: 12px; color: var(--gris); transition: color .2s; }
+    .footer-nav a:hover { color: var(--celeste); }
+    .footer-social { display: flex; gap: 14px; }
+    .footer-social a { font-size: 12px; color: var(--gris); transition: color .2s; }
+    .footer-social a:hover { color: var(--celeste); }
+    .footer-copy { font-size: 11px; color: #bbb; width: 100%; text-align: center; margin-top: 8px; }
+
+    @media (max-width: 768px) {
+      footer { padding: 32px 20px; }
+      .footer-inner { flex-direction: column; align-items: flex-start; gap: 20px; }
+      .footer-copy { text-align: left; }
+    }
+
+    /* ══════════════════════════════════
+       NAV – LOGO en header blanco
+       Usamos la versión del logo en color azul oscuro
+       Si solo existe la versión blanca, la invertimos solo en el nav
+    ══════════════════════════════════ */
+    .nav-logo-img {
+      height: 32px;
+      width: auto;
+      /* Convertir logo blanco a azul oscuro para fondo blanco */
+      filter: brightness(0) saturate(100%) invert(25%) sepia(60%) saturate(500%) hue-rotate(185deg) brightness(80%);
+    }
+    /* En el footer (fondo blanco) también */
+    .footer-logo-img {
+      height: 28px;
+      filter: brightness(0) saturate(100%) invert(25%) sepia(60%) saturate(500%) hue-rotate(185deg) brightness(80%);
+      opacity: .75;
+    }
+
+  </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav id="navbar">
-  <a href="#" class="nav-logo">
-    <img src="https://aterym.com/wp-content/uploads/2025/12/Logo-blanco-Aterym.webp"
-         alt="Aterym"
-         style="filter: invert(1) sepia(1) saturate(4) hue-rotate(175deg) brightness(0.5)">
-  </a>
-  <ul class="nav-links">
-    <li><a href="#tratamientos">Tratamientos</a></li>
-    <li><a href="#equipo">Equipo</a></li>
-    <li><a href="#vacaciones">Diálisis en Vacaciones</a></li>
-    <li><a href="#noticias">Noticias</a></li>
-    <li><a href="#jornada">Jornada 2026</a></li>
-  </ul>
-  <a href="#contacto" class="nav-cta">Contacto</a>
-</nav>
+<!-- ═══ NAV ═══ -->
+<header id="nav">
+  <div class="nav-inner">
+    <a href="https://aterym.com">
+      <img class="nav-logo-img"
+           src="https://aterym.com/wp-content/uploads/2025/12/Logo-blanco-Aterym.webp"
+           alt="Aterym Alta Gracia">
+    </a>
+    <nav class="nav-links">
+      <a href="#tratamientos">Tratamientos</a>
+      <a href="#equipo">Equipo</a>
+      <a href="#vacaciones">Diálisis en Vacaciones</a>
+      <a href="#noticias">Noticias</a>
+      <a href="#contacto" class="btn btn-primario" style="padding:8px 20px;font-size:13px">Contacto</a>
+    </nav>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
 
-<!-- HERO -->
+<!-- Menú mobile -->
+<div class="nav-menu-mobile" id="menu-mobile">
+  <a href="#tratamientos" class="menu-link">Tratamientos</a>
+  <a href="#equipo"       class="menu-link">Equipo médico</a>
+  <a href="#vacaciones"   class="menu-link">Diálisis en Vacaciones</a>
+  <a href="#noticias"     class="menu-link">Noticias</a>
+  <a href="#contacto"     class="menu-link">Contacto</a>
+</div>
+
+<!-- ═══ HERO ═══ -->
 <section class="hero">
-  <div class="hero-left">
-    <span class="hero-eyebrow">Alta Gracia, Córdoba</span>
-    <h1 class="hero-title">
+  <div class="hero-texto">
+    <span class="etiqueta">Alta Gracia · Córdoba · Argentina</span>
+    <h1 class="titulo">
       Nefrología y<br>
-      <strong>Hemodiálisis</strong><br>
+      <b>Hemodiálisis</b><br>
       jerarquizada
     </h1>
-    <div class="hero-rule"></div>
-    <p class="hero-sub">
+    <div class="hero-linea"></div>
+    <p class="hero-bajada">
       Porque sabemos sobre el cuidado del paciente renal y estamos comprometidos en mejorar su calidad de vida.
     </p>
-    <div class="hero-actions">
-      <a href="#tratamientos" class="btn-blue">Nuestros tratamientos</a>
-      <a href="#equipo" class="btn-outline">Conocé el equipo</a>
+    <div class="hero-ctas">
+      <a href="#tratamientos" class="btn btn-primario">Nuestros tratamientos</a>
+      <a href="#equipo"       class="btn btn-secundario">Conocé el equipo</a>
     </div>
   </div>
-  <div class="hero-right">
-    <img src="https://aterym.com/wp-content/uploads/2026/03/aterym-alta-gracia-1024x682.webp" alt="Aterym Alta Gracia">
-    <div class="hero-badge">
+  <div class="hero-imagen">
+    <img src="https://aterym.com/wp-content/uploads/2026/03/aterym-alta-gracia-1024x682.webp"
+         alt="Instalaciones Aterym Alta Gracia">
+    <div class="hero-sello">
       <img src="https://aterym.com/wp-content/uploads/2025/12/logo-itaes.png" alt="ITAES">
-      <span>Institución acreditada en calidad y seguridad del paciente</span>
+      <p>Institución acreditada en calidad y seguridad del paciente</p>
     </div>
   </div>
 </section>
 
-<!-- STAT BAR -->
-<div class="stat-bar">
-  <div class="stat-item reveal">
-    <div class="stat-num"><span>+</span>30</div>
-    <div class="stat-label">Profesionales especializados</div>
+<!-- ═══ ESTADÍSTICAS ═══ -->
+<div class="stats revelar">
+  <div class="stat">
+    <div class="stat-numero"><span>+</span>30</div>
+    <div class="stat-label">Profesionales</div>
   </div>
-  <div class="stat-item reveal">
-    <div class="stat-num">2</div>
+  <div class="stat">
+    <div class="stat-numero">2</div>
     <div class="stat-label">Modalidades de diálisis</div>
   </div>
-  <div class="stat-item reveal">
-    <div class="stat-num">1<span>°</span></div>
-    <div class="stat-label">Centro acreditado ITAES en Córdoba</div>
+  <div class="stat">
+    <div class="stat-numero">1<span>°</span></div>
+    <div class="stat-label">Acreditado ITAES en Córdoba</div>
   </div>
-  <div class="stat-item reveal">
-    <div class="stat-num">365</div>
-    <div class="stat-label">Días de atención continua</div>
+  <div class="stat">
+    <div class="stat-numero">365</div>
+    <div class="stat-label">Días de atención</div>
   </div>
 </div>
 
-<!-- TRATAMIENTOS -->
+<!-- ═══ TRATAMIENTOS ═══ -->
 <section id="tratamientos" class="tratamientos">
-  <div class="trat-text reveal">
-    <span class="section-tag">Opciones de tratamiento</span>
-    <h2 class="section-title">Soluciones integrales para tu <strong>salud renal</strong></h2>
-    <p>Contamos con las dos principales modalidades de tratamiento sustitutivo renal, adaptadas a las necesidades de cada paciente, con seguimiento permanente de un equipo interdisciplinario.</p>
-    <a href="https://aterym.com/institucion/" class="btn-blue">Ver institución</a>
-  </div>
-  <div class="trat-cards reveal">
-    <div class="trat-card">
-      <div>
-        <span class="trat-card-num">01</span>
-        <h3>Hemodiálisis</h3>
-        <p>Tratamiento de depuración extracorpórea de la sangre con seguimiento médico especializado.</p>
-      </div>
-      <span class="trat-card-arrow">→</span>
+  <div class="tratamientos-inner">
+    <div class="tratamientos-texto revelar">
+      <span class="etiqueta">Opciones de tratamiento</span>
+      <h2 class="titulo">Soluciones integrales para tu <b>salud renal</b></h2>
+      <p>Contamos con las dos principales modalidades de tratamiento sustitutivo renal, adaptadas a las necesidades de cada paciente con seguimiento interdisciplinario permanente.</p>
+      <a href="https://aterym.com/institucion/" class="btn btn-primario">Ver institución</a>
     </div>
-    <div class="trat-card">
-      <div>
-        <span class="trat-card-num">02</span>
-        <h3>Diálisis Peritoneal</h3>
-        <p>Modalidad que permite al paciente mayor autonomía y flexibilidad en su vida cotidiana.</p>
+    <div class="tarjetas revelar">
+      <div class="tarjeta">
+        <div>
+          <div class="tarjeta-num">01</div>
+          <h3>Hemodiálisis</h3>
+          <p>Depuración extracorpórea de la sangre con seguimiento médico especializado en cada sesión.</p>
+        </div>
+        <span class="tarjeta-flecha">→</span>
       </div>
-      <span class="trat-card-arrow">→</span>
+      <div class="tarjeta">
+        <div>
+          <div class="tarjeta-num">02</div>
+          <h3>Diálisis Peritoneal</h3>
+          <p>Modalidad que otorga mayor autonomía y flexibilidad en la vida cotidiana del paciente.</p>
+        </div>
+        <span class="tarjeta-flecha">→</span>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ACREDITACIÓN -->
-<section class="acreditacion reveal">
-  <div class="acred-text">
-    <span class="section-tag">Calidad certificada</span>
-    <h2 class="section-title">Único centro acreditado por el <strong>ITAES</strong> en la provincia de Córdoba</h2>
-    <p>Somos el único centro de diálisis de Córdoba acreditado en calidad y seguridad del paciente por el Instituto Técnico para la Acreditación de Establecimientos de Salud.</p>
-    <a href="https://aterym.com/calidad-y-seguridad-del-paciente/" class="btn-blue">Más información</a>
-  </div>
-  <div class="acred-badge">
-    <img src="https://aterym.com/wp-content/uploads/2025/12/logo-itaes.png" alt="ITAES">
-    <span>Institución acreditada en calidad y seguridad del paciente</span>
+<!-- ═══ ACREDITACIÓN ═══ -->
+<section class="acreditacion">
+  <div class="acreditacion-inner revelar">
+    <div class="acreditacion-texto">
+      <span class="etiqueta">Calidad certificada</span>
+      <h2 class="titulo">Único centro acreditado por el <b>ITAES</b> en la provincia</h2>
+      <p>Somos el único centro de diálisis de Córdoba acreditado en calidad y seguridad del paciente por el Instituto Técnico para la Acreditación de Establecimientos de Salud.</p>
+      <a href="https://aterym.com/calidad-y-seguridad-del-paciente/" class="btn btn-primario">Más información</a>
+    </div>
+    <div class="acreditacion-sello">
+      <img src="https://aterym.com/wp-content/uploads/2025/12/logo-itaes.png" alt="ITAES">
+      <p>Institución acreditada en calidad y seguridad del paciente</p>
+    </div>
   </div>
 </section>
 
-<!-- EQUIPO -->
+<!-- ═══ EQUIPO ═══ -->
 <section id="equipo" class="equipo">
-  <div class="equipo-header reveal">
-    <div>
-      <span class="section-tag">Equipo médico</span>
-      <h2 class="section-title">Más de 30 especialistas <strong>trabajando en equipo</strong></h2>
-    </div>
-    <a href="https://aterym.com/institucion/#equipo">Ver todos los profesionales →</a>
-  </div>
-  <div class="equipo-grid reveal">
-    <div class="medico-card">
-      <img src="https://aterym.com/wp-content/uploads/2026/03/dr-boni.png" alt="Dr. Sergio Boni">
-      <div class="medico-info">
-        <h4>Dr. Sergio Boni</h4>
-        <span>Director Ejecutivo</span>
+  <div class="contenedor">
+    <div class="equipo-header revelar">
+      <div>
+        <span class="etiqueta">Equipo médico</span>
+        <h2 class="titulo">Más de 30 especialistas <b>trabajando en equipo</b></h2>
       </div>
+      <a href="https://aterym.com/institucion/#equipo">Ver todos los profesionales →</a>
     </div>
-    <div class="medico-card">
-      <img src="https://aterym.com/wp-content/uploads/2026/03/dra-nadaya.png" alt="Dra. Carolina Nadaya">
-      <div class="medico-info">
-        <h4>Dra. Carolina Nadaya</h4>
-        <span>Directora Médica</span>
+    <div class="medicos-grid revelar">
+      <div class="medico">
+        <img class="medico-foto"
+             src="https://aterym.com/wp-content/uploads/2026/03/dr-boni.png"
+             alt="Dr. Sergio Boni">
+        <div>
+          <h4>Dr. Sergio Boni</h4>
+          <span>Director Ejecutivo</span>
+        </div>
+      </div>
+      <div class="medico">
+        <img class="medico-foto"
+             src="https://aterym.com/wp-content/uploads/2026/03/dra-nadaya.png"
+             alt="Dra. Carolina Nadaya">
+        <div>
+          <h4>Dra. Carolina Nadaya</h4>
+          <span>Directora Médica</span>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- VACACIONES -->
-<div id="vacaciones" class="vacaciones">
-  <div class="vac-img">
-    <img src="https://aterym.com/wp-content/uploads/2026/03/DIALISIS-EN-VACACIONES-3-1024x665.jpg" alt="Diálisis en Vacaciones">
+<!-- ═══ VACACIONES ═══ -->
+<section id="vacaciones" class="vacaciones">
+  <div class="vacaciones-imagen">
+    <img src="https://aterym.com/wp-content/uploads/2026/03/DIALISIS-EN-VACACIONES-3-1024x665.jpg"
+         alt="Diálisis en Vacaciones — Sierras de Córdoba">
   </div>
-  <div class="vac-content reveal">
-    <span class="section-tag">Programa especial</span>
-    <h2 class="section-title">Diálisis en <strong>Vacaciones</strong></h2>
+  <div class="vacaciones-texto revelar">
+    <span class="etiqueta">Programa especial</span>
+    <h2 class="titulo">Diálisis en <b>Vacaciones</b></h2>
     <p>Continuá tu tratamiento mientras disfrutás de las Sierras de Córdoba. Nuestro programa está pensado para que no tengas que elegir entre tu salud y un merecido descanso.</p>
-    <a href="https://aterym.com/contacto/" class="btn-blue">Consultá disponibilidad</a>
+    <a href="https://aterym.com/contacto/" class="btn btn-primario">Consultá disponibilidad</a>
   </div>
-</div>
+</section>
 
-<!-- NOTICIAS -->
+<!-- ═══ NOTICIAS ═══ -->
 <section id="noticias" class="noticias">
-  <div class="noticias-header reveal">
-    <div>
-      <span class="section-tag">Novedades</span>
-      <h2 class="section-title">Últimas <strong>noticias</strong></h2>
+  <div class="contenedor">
+    <div class="noticias-header revelar">
+      <div>
+        <span class="etiqueta">Novedades</span>
+        <h2 class="titulo">Últimas <b>noticias</b></h2>
+      </div>
+      <a href="https://aterym.com/">Ver todas las noticias →</a>
     </div>
-    <a href="https://aterym.com/">Ver todas →</a>
-  </div>
-  <div class="noticias-grid reveal">
-    <a href="https://aterym.com/circuito-renal-2026-mas-de-500-vecinos-participaron-en-alta-gracia/" class="noticia-card">
-      <img class="noticia-img" src="https://aterym.com/wp-content/uploads/elementor/thumbs/IMG_6582-scaled-rkqmzasdl4hcq51xvb5nqg3n5rhll9cspr6syv4es0.jpg" alt="Circuito Renal 2026">
-      <div class="noticia-body">
-        <span class="noticia-date">Marzo 2026</span>
-        <h3>Circuito Renal 2026: más de 500 vecinos participaron en Alta Gracia</h3>
-        <p>Por el Día Mundial del Riñón, Aterym realizó el Circuito Renal junto a ByB en una campaña clave de prevención y detección temprana.</p>
-      </div>
-    </a>
-    <a href="https://aterym.com/paseo-por-el-tajamar-atractivo-y-recorrido-natural-a-unos-pasos-del-centro-de-alta-gracia/" class="noticia-card">
-      <img class="noticia-img" src="https://aterym.com/wp-content/uploads/elementor/thumbs/Tajamar-1-rfyhx89s15ioi5myjo5dtgihjtrgu5d1gmpd8ex974.jpg" alt="Paseo por el Tajamar">
-      <div class="noticia-body">
-        <span class="noticia-date">Marzo 2026</span>
-        <h3>Paseo por el Tajamar: naturaleza e historia en el centro de Alta Gracia</h3>
-        <p>El Tajamar, ícono histórico de Alta Gracia, combina paisaje, historia y recreación a pasos del centro.</p>
-      </div>
-    </a>
+    <div class="noticias-grid revelar">
+      <a href="https://aterym.com/circuito-renal-2026-mas-de-500-vecinos-participaron-en-alta-gracia/" class="noticia">
+        <img class="noticia-foto"
+             src="https://aterym.com/wp-content/uploads/elementor/thumbs/IMG_6582-scaled-rkqmzasdl4hcq51xvb5nqg3n5rhll9cspr6syv4es0.jpg"
+             alt="Circuito Renal 2026">
+        <div class="noticia-cuerpo">
+          <div class="noticia-fecha">Marzo 2026</div>
+          <h3>Circuito Renal 2026: más de 500 vecinos participaron en Alta Gracia</h3>
+          <p>Por el Día Mundial del Riñón, Aterym realizó el Circuito Renal junto a ByB en una campaña clave de prevención y detección temprana.</p>
+        </div>
+      </a>
+      <a href="https://aterym.com/paseo-por-el-tajamar-atractivo-y-recorrido-natural-a-unos-pasos-del-centro-de-alta-gracia/" class="noticia">
+        <img class="noticia-foto"
+             src="https://aterym.com/wp-content/uploads/elementor/thumbs/Tajamar-1-rfyhx89s15ioi5myjo5dtgihjtrgu5d1gmpd8ex974.jpg"
+             alt="Paseo por el Tajamar">
+        <div class="noticia-cuerpo">
+          <div class="noticia-fecha">Marzo 2026</div>
+          <h3>Paseo por el Tajamar: naturaleza e historia en el centro de Alta Gracia</h3>
+          <p>El Tajamar, ícono histórico de Alta Gracia, combina paisaje, historia y recreación a pasos del centro de la ciudad.</p>
+        </div>
+      </a>
+    </div>
   </div>
 </section>
 
-<!-- JORNADA BANNER -->
-<div id="jornada" class="jornada-banner reveal">
-  <div class="jornada-banner-text">
-    <span class="section-tag">Evento institucional</span>
-    <h2>2da Jornada Nacional de <strong>Calidad en Diálisis 2026</strong></h2>
+<!-- ═══ BANNER JORNADA ═══ -->
+<div id="jornada" class="jornada-banner revelar">
+  <div class="jornada-banner-inner">
+    <div>
+      <span class="etiqueta">Evento institucional</span>
+      <h2>2da Jornada Nacional de <b>Calidad en Diálisis 2026</b></h2>
+    </div>
+    <a href="https://aterym.com/2da-jornada-de-calidad/" class="btn btn-blanco">Ver programa →</a>
   </div>
-  <a href="https://aterym.com/2da-jornada-de-calidad/" class="btn-white">Ver programa →</a>
 </div>
 
-<!-- CONTACTO -->
+<!-- ═══ CONTACTO ═══ -->
 <section id="contacto" class="contacto">
-  <div class="contacto-text reveal">
-    <span class="section-tag">Contacto</span>
-    <h2 class="section-title">Estamos para <strong>ayudarte</strong></h2>
-    <p>Si tenés consultas sobre nuestros tratamientos, turnos o el programa de Diálisis en Vacaciones, no dudes en comunicarte con nosotros.</p>
-    <a href="mailto:info@aterym.com" class="btn-blue">Enviar mensaje</a>
-  </div>
-  <div class="contacto-items reveal">
-    <div class="contacto-item">
-      <div class="contacto-icon">📍</div>
-      <div class="contacto-item-text">
-        <span>Dirección</span>
-        <span>Brasil 151, Alta Gracia, Córdoba</span>
-      </div>
+  <div class="contacto-inner">
+    <div class="contacto-texto revelar">
+      <span class="etiqueta">Contacto</span>
+      <h2 class="titulo">Estamos para <b>ayudarte</b></h2>
+      <p>Si tenés consultas sobre nuestros tratamientos, turnos o el programa de Diálisis en Vacaciones, no dudes en comunicarte.</p>
+      <a href="mailto:info@aterym.com" class="btn btn-primario">Enviar mensaje</a>
     </div>
-    <div class="contacto-item">
-      <div class="contacto-icon">📞</div>
-      <div class="contacto-item-text">
-        <span>Teléfonos</span>
-        <span>3547 429 304 — 3515 649 322</span>
+    <div class="contacto-datos revelar">
+      <div class="dato">
+        <div class="dato-icono">📍</div>
+        <div class="dato-info">
+          <small>Dirección</small>
+          <span>Brasil 151, Alta Gracia, Córdoba</span>
+        </div>
       </div>
-    </div>
-    <div class="contacto-item">
-      <div class="contacto-icon">✉</div>
-      <div class="contacto-item-text">
-        <span>Email</span>
-        <span>info@aterym.com</span>
+      <div class="dato">
+        <div class="dato-icono">📞</div>
+        <div class="dato-info">
+          <small>Teléfonos</small>
+          <span>3547 429 304 · 3515 649 322</span>
+        </div>
+      </div>
+      <div class="dato">
+        <div class="dato-icono">✉</div>
+        <div class="dato-info">
+          <small>Email</small>
+          <span>info@aterym.com</span>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- ═══ FOOTER ═══ -->
 <footer>
-  <img class="footer-logo"
-       src="https://aterym.com/wp-content/uploads/2025/12/Logo-blanco-Aterym.webp"
-       alt="Aterym"
-       style="filter: invert(1) sepia(1) saturate(4) hue-rotate(175deg) brightness(0.5)">
-  <nav class="footer-nav">
-    <a href="https://aterym.com/institucion/">Institución</a>
-    <a href="https://aterym.com/calidad-y-seguridad-del-paciente/">Calidad y Seguridad</a>
-    <a href="https://aterym.com/2da-jornada-de-calidad/">2da Jornada 2026</a>
-    <a href="https://aterym.com/contacto/">Contacto</a>
-  </nav>
-  <div class="footer-social">
-    <a href="https://www.instagram.com/aterymnefrologia/" target="_blank">Instagram</a>
-    <a href="https://www.facebook.com/aterymnefrologia" target="_blank">Facebook</a>
-    <a href="https://www.linkedin.com/company/81579909/" target="_blank">LinkedIn</a>
+  <div class="footer-inner">
+    <img class="footer-logo-img"
+         src="https://aterym.com/wp-content/uploads/2025/12/Logo-blanco-Aterym.webp"
+         alt="Aterym Alta Gracia">
+    <nav class="footer-nav">
+      <a href="https://aterym.com/institucion/">Institución</a>
+      <a href="https://aterym.com/calidad-y-seguridad-del-paciente/">Calidad y Seguridad</a>
+      <a href="https://aterym.com/2da-jornada-de-calidad/">Jornada 2026</a>
+      <a href="https://aterym.com/contacto/">Contacto</a>
+    </nav>
+    <div class="footer-social">
+      <a href="https://www.instagram.com/aterymnefrologia/" target="_blank">Instagram</a>
+      <a href="https://www.facebook.com/aterymnefrologia" target="_blank">Facebook</a>
+      <a href="https://www.linkedin.com/company/81579909/" target="_blank">LinkedIn</a>
+    </div>
+    <p class="footer-copy">© 2026 Aterym Alta Gracia · Brasil 151, Alta Gracia, Córdoba</p>
   </div>
-  <span class="footer-copy">© 2026 Aterym Alta Gracia</span>
 </footer>
 
 <script>
-  const navbar = document.getElementById('navbar');
+  // ── Nav sombra al hacer scroll
+  const nav = document.getElementById('nav');
   window.addEventListener('scroll', () => {
-    navbar.classList.toggle('scrolled', window.scrollY > 20);
+    nav.classList.toggle('con-sombra', window.scrollY > 10);
+  }, { passive: true });
+
+  // ── Hamburger menu
+  const hamburger = document.getElementById('hamburger');
+  const menuMobile = document.getElementById('menu-mobile');
+  hamburger.addEventListener('click', () => {
+    const abierto = menuMobile.classList.toggle('abierto');
+    hamburger.setAttribute('aria-expanded', abierto);
   });
-  const reveals = document.querySelectorAll('.reveal');
-  const obs = new IntersectionObserver((entries) => {
+  // Cerrar menú al hacer click en un link
+  document.querySelectorAll('.menu-link').forEach(link => {
+    link.addEventListener('click', () => {
+      menuMobile.classList.remove('abierto');
+    });
+  });
+
+  // ── Scroll reveal
+  const observador = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
       if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('visible'), i * 90);
-        obs.unobserve(entry.target);
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observador.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.1 });
-  reveals.forEach(el => obs.observe(el));
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.revelar').forEach(el => observador.observe(el));
 </script>
+
 </body>
 </html>
